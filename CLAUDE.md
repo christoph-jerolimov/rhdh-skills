@@ -69,3 +69,17 @@ Single version (`0.2.0`) kept in sync across three files:
 - `.claude-plugin/marketplace.json` — marketplace listing (2 occurrences)
 
 Bump all three when releasing.
+
+## Agent skills
+
+### Issue tracker
+
+GitHub Issues via `gh` CLI. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Default labels (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`). See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context (`CONTEXT.md` + `docs/adr/` at root). See `docs/agents/domain.md`.
