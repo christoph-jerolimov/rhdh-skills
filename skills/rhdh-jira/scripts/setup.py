@@ -230,12 +230,12 @@ def _output(results, as_json):
             print(f"  [WARN] {w}")
     else:
         acli_dir = Path(results['acli_path']).resolve().parent
-        print(f"  [WARN] No .jira-token file found next to acli")
+        print("  [WARN] No .jira-token file found next to acli")
         print(f"         Expected at: {acli_dir / '.jira-token'}")
         print("         Create with: echo 'email:api-token' > .jira-token")
         print("         Then: chmod 600 .jira-token")
         print("         REST API/GraphQL fallback will not work without it.")
-        print(f"         See: https://developer.atlassian.com/cloud/acli/guides/how-to-get-started/")
+        print("         See: https://developer.atlassian.com/cloud/acli/guides/how-to-get-started/")
 
     # Connectivity
     if results["connectivity"]:
