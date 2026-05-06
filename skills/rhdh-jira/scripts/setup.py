@@ -98,6 +98,30 @@ def check_projects(acli_path):
     return accessible, inaccessible
 
 
+def check_token_file(acli_path):
+    """Check if .jira-token file exists next to the acli executable."""
+    acli_dir = Path(acli_path).resolve().parent
+    token_path = acli_dir / ".jira-token"
+    if not token_path.exists():
+        return None, "not found", []
+    warnings = []
+    try:
+        content = token_path.read_text(encoding="utf-8").strip()
+        if "\n" in content:
+            warnings.append("file contains multiple lines — should be a single line")
+        if ":" not in content:
+            return str(token_path), "missing email prefix (expected email:token format)", warnings
+        # Check file permissions on Unix
+        if sys.platform != "win32":
+            import stat
+            mode = token_path.stat().st_mode
+            if mode & (stat.S_IRGRP | stat.S_IROTH):
+                warnings.append("file is readable by group/others — run: chmod 600 " + str(token_path))
+        return str(token_path), "valid", warnings
+    except OSError as e:
+        return None, f"read error: {e}", warnings
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Verify acli installation and Jira authentication for RHDH."
@@ -112,6 +136,9 @@ def main():
         "config_found": False,
         "config_path": None,
         "auth_type": None,
+        "token_file_found": False,
+        "token_file_path": None,
+        "token_file_status": None,
         "connectivity": False,
         "connectivity_detail": None,
         "projects_accessible": [],
@@ -136,7 +163,15 @@ def main():
         results["config_path"] = config_path
         results["auth_type"] = auth_type
 
-    # Step 3: Smoke test (do NOT use 'acli auth status' — it lies with API tokens)
+    # Step 3: Check .jira-token file
+    token_path, token_status, token_warnings = check_token_file(acli_path)
+    if token_path:
+        results["token_file_found"] = True
+        results["token_file_path"] = token_path
+    results["token_file_status"] = token_status
+    results["token_file_warnings"] = token_warnings
+
+    # Step 4: Smoke test (do NOT use 'acli auth status' — it lies with API tokens)
     ok, detail = smoke_test(acli_path)
     results["connectivity"] = ok
     results["connectivity_detail"] = detail
@@ -145,7 +180,7 @@ def main():
         _output(results, args.json)
         sys.exit(1)
 
-    # Step 4: Check project access
+    # Step 5: Check project access
     if not args.quick:
         accessible, inaccessible = check_projects(acli_path)
         results["projects_accessible"] = accessible
@@ -182,6 +217,25 @@ def _output(results, as_json):
     else:
         print("  [WARN] No Jira config found at ~/.config/acli/jira_config.yaml")
         print("         Run: acli auth login")
+
+    # Token file
+    if results["token_file_found"]:
+        if results["token_file_status"] == "valid":
+            print(f"  [PASS] Token file found: {results['token_file_path']}")
+        else:
+            print(f"  [WARN] Token file found but {results['token_file_status']}")
+            print(f"         File: {results['token_file_path']}")
+            print("         Expected format: email@example.com:your-api-token")
+        for w in results.get("token_file_warnings", []):
+            print(f"  [WARN] {w}")
+    else:
+        acli_dir = Path(results['acli_path']).resolve().parent
+        print(f"  [WARN] No .jira-token file found next to acli")
+        print(f"         Expected at: {acli_dir / '.jira-token'}")
+        print("         Create with: echo 'email:api-token' > .jira-token")
+        print("         Then: chmod 600 .jira-token")
+        print("         REST API/GraphQL fallback will not work without it.")
+        print(f"         See: https://developer.atlassian.com/cloud/acli/guides/how-to-get-started/")
 
     # Connectivity
     if results["connectivity"]:

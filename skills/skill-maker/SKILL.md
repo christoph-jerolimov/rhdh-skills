@@ -28,7 +28,8 @@ Focus areas, roughly in order:
 7. **References needed?** Domain knowledge too large for SKILL.md that should live in separate files?
 8. **Existing patterns.** Similar skills or workflows to draw from? Check the codebase.
 9. **Platform constraints.** macOS, Windows, and Linux? Scripts must handle path separators, temp directories, and shell differences.
-10. **Architecture.** Based on the answers above, decide whether the skill's scope warrants sub-commands, context systems, or setup gates. Most skills don't need this — skip to Phase 2 if the skill is straightforward. If it does, ask:
+10. **External services and APIs.** Does the skill call external APIs or services? If yes, read `references/api-skill-patterns.md` — it covers credential handling, schema discovery, instance-specific values, and error placement.
+11. **Architecture.** Based on the answers above, decide whether the skill's scope warrants sub-commands, context systems, or setup gates. Most skills don't need this — skip to Phase 2 if the skill is straightforward. If it does, ask:
     - **Should this be one skill with sub-commands or multiple skills?** One skill with a router table prevents menu pollution. Multiple skills are appropriate when the tasks have no shared context or setup.
     - **Does the skill need project-level context?** If every command needs the same background (project config, conventions), design a context file pattern with a loader script.
     - **Are there mandatory setup gates?** Steps that must pass before any work begins (context loaded, config valid, dependencies present). Gates prevent generic output.
@@ -247,14 +248,26 @@ Before presenting the final skill, verify against this checklist:
 
 ### References
 - [ ] Domain knowledge split into `references/` with clear "when to read" pointers
-- [ ] Each reference is self-contained — an agent can load it without reading others
+- [ ] Each reference is self-contained — no transitive loading (see `spec-guide.md` → Reference Architecture)
 - [ ] Reference loading is conditional, not eager ("Read X if Y happens")
+- [ ] Shared concerns (auth, config) extracted into their own reference, not embedded in a consumer
+- [ ] Error handling lives in the reference for the tool that produces the error
+- [ ] Multi-approach skills include a decision table routing to the correct reference
+- [ ] No browser-only tools referenced (Postman, API consoles, OAuth login pages)
 
 ### Scripts
 - [ ] Scripts (if any) have shebangs, structured output, and `--help`
 - [ ] Context loader returns JSON, handles missing files, resolves fallback paths
 - [ ] Scripts are cross-platform (pathlib, tempfile, no hardcoded paths)
 - [ ] Scripts are idempotent — safe to re-run
+
+### API/Service Skills (if applicable)
+- [ ] Credential files are never read into context — passed via shell substitution only
+- [ ] Credential setup is single-sourced in its own reference file
+- [ ] Capability gate checks for credentials before attempting API calls
+- [ ] API schema discovery is documented (OpenAPI download, GraphQL introspection, or live endpoints)
+- [ ] API examples have been validated against the live endpoint
+- [ ] Instance-specific values include programmatic discovery methods
 
 ### Quality
 - [ ] No time-sensitive information (URLs to specific versions, dates that will go stale)

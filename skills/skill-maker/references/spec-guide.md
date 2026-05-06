@@ -79,6 +79,42 @@ Match the level of control to the task:
 
 Use explicit control for high-stakes, multi-step, or error-prone tasks. Use implicit guidance for creative or exploratory tasks.
 
+## Reference Architecture
+
+### The consumer is an agent
+
+Every feature in the skill must be usable by an agent with no browser, no GUI, and no interactive prompts.
+
+- Do not reference browser-only tools (Postman, Swagger UI, API consoles, OAuth login pages)
+- Do not include resources that require a human to visually browse or click
+- Ask: "Can the agent use this in a `bash` or `read` tool call?" If no, cut it.
+
+### Each reference must be independently loadable
+
+An agent should be able to load any single reference file and use it without being forced to load another.
+
+**Anti-pattern (transitive loading):** Shared setup (auth, config, constants) is embedded in one reference file. Other files depend on it, forcing the agent to load an unrelated file just to get the shared setup.
+
+**Correct pattern:** Extract shared setup into its own reference file. Consumer files point to it and assume its variables/context are set. The agent loads only what it needs.
+
+Signs of transitive loading:
+- Loading file A requires loading file B first
+- The same snippet appears in 2+ reference files
+- Updating a value requires editing multiple files
+- Two files explain the same concept with slightly different wording
+
+### Error handling belongs with the tool that produces the error
+
+Don't centralize all error handling in SKILL.md. Errors from the primary tool belong in SKILL.md. Errors from tools documented in reference files belong in those reference files — that's where the agent will be when it encounters them.
+
+### Decision tables for multi-approach skills
+
+When a skill offers multiple ways to accomplish similar tasks (CLI, API, library, etc.), include a decision table so the agent picks the right approach. Without one, the agent defaults to whatever it loaded most recently.
+
+- Put a routing table in SKILL.md that points to the correct reference
+- Each reference file explains when to use *it* vs alternatives
+- Default to the simplest approach — escalate only when it can't handle the task
+
 ## Best Practices
 
 Full guide: https://agentskills.io/skill-creation/best-practices
