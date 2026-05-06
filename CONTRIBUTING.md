@@ -30,6 +30,12 @@ uv run ruff format --check .
 
 Both run automatically via the pre-commit hook.
 
+## Adding a Skill
+
+Use the `/skill-maker` skill — it interviews you about scope, edge cases, and architecture before drafting anything.
+
+Before creating a new skill, check whether it belongs as a **sub-command** of an existing skill. If the new work shares prerequisites, scripts, or cross-references with an existing skill, add a sub-command and reference file instead. See `skills/create-plugin/` for an example of a sub-command router with `backend`, `frontend`, `export`, and `wiring` commands.
+
 ## Submitting a Pull Request
 
 1. Fork the repo and create a branch from `main`.
