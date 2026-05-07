@@ -5,7 +5,6 @@ import re
 import pytest
 import yaml
 
-
 REVIEW_PR_SKILL_DIR_NAME = "rhdh-pr-review"
 
 
