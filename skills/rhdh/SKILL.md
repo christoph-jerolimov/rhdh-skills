@@ -104,10 +104,16 @@ What would you like to do?
 
 7. **Local testing** — Enable/disable/test plugins in local RHDH
 
+### Review & Testing Tasks
+
+*For testing PR changes on a live RHDH cluster*
+
+8. **Review operator PR** — Swap CI images into cluster and get review checklist
+
 ### General Tasks
 
-8. **Check environment** — Run doctor, configure paths
-9. **View/search activity** — Review worklog, todos
+9. **Check environment** — Run doctor, configure paths
+10. **View/search activity** — Review worklog, todos
 
 **Wait for response before proceeding.**
 </intake>
@@ -145,12 +151,20 @@ What would you like to do?
 
 **To route:** Read `../rhdh-local/SKILL.md` and follow its intake process.
 
+### Review & Testing Routes
+
+| Response | Skill |
+|----------|-------|
+| 8, "review PR", "rhdh-pr-review", "test PR", "operator PR", "swap image" | Route to `@rhdh-pr-review` skill |
+
+**To route:** Read `../rhdh-pr-review/SKILL.md` and follow its intake process.
+
 ### General Routes
 
 | Response | Action |
 |----------|--------|
-| 8, "doctor", "setup", "config" | Use CLI commands below |
-| 9, "log", "todo", "activity" | Use tracking commands below |
+| 9, "doctor", "setup", "config" | Use CLI commands below |
+| 10, "log", "todo", "activity" | Use tracking commands below |
 
 </routing>
 
@@ -288,6 +302,7 @@ Todos must be **self-contained**—a new session should understand the task with
 | overlay | Manage plugins in rhdh-plugin-export-overlays | `../overlay/SKILL.md` |
 | create-plugin | Create, export, package, and wire RHDH dynamic plugins | `../create-plugin/SKILL.md` |
 | rhdh-local | Enable/disable/test plugins in local RHDH | `../rhdh-local/SKILL.md` |
+| rhdh-pr-review | Test PR changes on live RHDH cluster | `../rhdh-pr-review/SKILL.md` |
 
 ### Shared References
 
