@@ -146,6 +146,8 @@ acli jira workitem link create --key ISSUE_KEY --link-type "Blocks" --target-key
 
 After updating the issue, check if parent issues should transition too. One level at a time, each with confirmation.
 
+If the issue has no `parentIssue` in the Step 2 response, skip the cascade check entirely.
+
 **Check parent Epic:**
 
 Query siblings of the updated issue:
@@ -154,7 +156,7 @@ Query siblings of the updated issue:
 jql: "parent = {epic_key}"
 ```
 
-If ALL siblings are Closed or Release Pending:
+If ALL siblings are in a terminal status for their type — Closed for Stories/Tasks, Closed or Release Pending for Bugs:
 > "All stories under {epic_key} ({epic_summary}) are complete. Transition Epic to Dev Complete? [y/N]"
 
 If the user confirms, transition the Epic. Add a status comment: "All child issues complete. Transitioning to Dev Complete."
@@ -167,7 +169,7 @@ If the Epic was transitioned, query sibling Epics of the parent Feature:
 jql: "parent = {feature_key} AND issuetype = Epic"
 ```
 
-If ALL sibling Epics are in Dev Complete, Release Pending, or Closed:
+If ALL sibling Epics are in Release Pending or Closed (Dev Complete is not sufficient — Epics still need Release Notes fields and demo links):
 > "All Epics under {feature_key} ({feature_summary}) are complete. The Feature Owner is {owner}. Recommend reaching out to {owner} to transition the Feature to Release Pending."
 
 Do not transition the Feature directly — that's the Feature Owner's responsibility. Suggest reaching out instead.

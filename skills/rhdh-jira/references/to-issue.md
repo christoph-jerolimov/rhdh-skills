@@ -23,7 +23,7 @@ Determine the issue type from the conversation context:
 | Internal: CI, refactoring, tooling, tests, infra | **Task** | RHIDP | Uses Task template |
 | Something is broken, regression, unexpected behavior | **Bug** | RHDHBUGS | Uses Bug template. **Do not include customer information — RHDHBUGS is public.** |
 | Bug from a support case | **Bug** | RHDHSUPP | Uses Bug template. Support-originated — link to customer case. See `references/support.md`. |
-| CVE, vulnerability, security advisory | **Vulnerability** | RHIDP | Requires Security component. See `references/fields.md` for Vulnerability type. |
+| CVE, vulnerability, security advisory | **Vulnerability** | RHIDP | Requires Security component. Uses Story template and grill questions. |
 | "Investigate", "research", "spike", "explore", "POC", unknown scope | **Task** (spike) | RHIDP | Summary prefixed with `SPIKE:`. Requires time-boxed story points. |
 
 Confirm the inference with the user: "This sounds like a {type}. Correct?"
@@ -36,7 +36,7 @@ If the user disagrees, adjust. Additional disambiguation questions:
 
 ### Step 3 — Draft from Context
 
-Load the appropriate template from `assets/templates/`. If an example exists in `assets/examples/`, load it for tone calibration (see `references/templates.md` for which types have examples).
+Load the appropriate template and example from `assets/templates/` and `assets/examples/` (see `references/templates.md` for the mapping).
 
 Synthesize: Draft as many template sections as possible from the conversation (and parent Epic if chained). If chained, pre-fill Background (link to parent Epic) and Dependencies.
 
@@ -120,6 +120,8 @@ acli jira workitem create --project RHIDP --type Task \
   --summary "SPIKE: Research multi-source catalog merging" \
   --description-file /tmp/spike-desc.txt \
   --assignee "ACCOUNT_ID" \
+  --priority "Major" \
+  --component "Plugins" \
   --yes
 ```
 

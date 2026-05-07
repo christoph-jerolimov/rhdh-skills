@@ -68,11 +68,7 @@ Set additional fields via REST if needed (Team, Size) — follow API preference 
 
 ### Step 7 — Comments
 
-After creation, proactively suggest adding comments for context that doesn't belong in the description:
-
-- **Decision trail**: "During discussion, we considered [alternative approach] but decided against it because [reason]. Worth capturing as a comment?"
-- **Elaboration**: "The customer context you mentioned about [specific customer need] — add as a comment for stakeholder context?"
-- **Abandoned paths**: "You mentioned initially thinking about [approach] before pivoting. Capture this for future reference?"
+Follow the comment suggestion behavior from `references/grill.md` — proactively suggest decision trail, elaboration, and abandoned paths as comments.
 
 Add each approved comment via:
 

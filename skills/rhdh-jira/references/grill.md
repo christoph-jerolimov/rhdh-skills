@@ -143,6 +143,8 @@ Not every behavior applies to every type. Use this as a guide:
 | Cross-reference | ✅ | ✅ | ✅ | ✅ | ✅ |
 | Validate before creating | ✅ | ✅ | ✅ | ✅ | ✅ |
 
+**Vulnerability** follows the Story column. Always requires Security component.
+
 Bugs skip most challenges — the goal is to capture the defect accurately, not challenge whether it should exist. Cross-reference and validation still apply (check for duplicates, ensure fields are set).
 
 Tasks skip scope/risk challenges unless they're complex (multi-day, cross-system). Use judgment.

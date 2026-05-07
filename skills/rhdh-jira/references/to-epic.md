@@ -84,11 +84,7 @@ Set Team and Size via REST — follow API preference order in SKILL.md.
 
 ### Step 8 — Comments
 
-Proactively suggest comments for:
-
-- **Decision trail**: architectural decisions made during the grill
-- **Elaboration**: technical context, upstream considerations
-- **Abandoned paths**: approaches considered but rejected
+Follow the comment suggestion behavior from `references/grill.md` — proactively suggest decision trail, elaboration, and abandoned paths as comments.
 
 Add via `acli jira workitem comment --key RHIDP-XXX --comment "text" --yes`.
 
