@@ -4,21 +4,31 @@ Create a RHDHPLAN Feature from conversation context. Grills the user on scope, c
 
 ## Workflow
 
-### Step 1 — Grill
+### Step 1 — Draft and Grill
 
-Interview the user to fill the Feature template sections. Load `assets/templates/feature.txt` for structure and `assets/examples/feature-example.txt` for tone calibration. Follow the challenging behavior in `references/grill.md`.
+Load `assets/templates/feature.txt` for structure and `assets/examples/feature-example.txt` for tone calibration.
 
-**Feature-specific questions** (one at a time, carry forward existing context):
+**1a. Synthesize from context.** Before asking questions, review what the conversation already established. Draft as many template sections as possible from existing context:
+
+- Feature Overview, Goals, AC, Out of Scope, Customer Considerations, Documentation, Upstream engagement
+
+Present the draft: "Based on our conversation, here's what I have so far. Review and tell me what's missing or wrong."
+
+**1b. Fill gaps.** For any template sections the agent couldn't fill from context, ask targeted questions (one at a time):
 
 1. **Feature Overview** — what is this? Elevator pitch.
 2. **Goals** — what does the user get? Which persona benefits?
-3. **Requirements / Acceptance Criteria** — what must be true for this to be complete? Include non-functional requirements (security, performance, scalability).
+3. **Requirements / Acceptance Criteria** — what must be true for this to be complete? Include non-functional requirements.
 4. **Out of Scope** — what is explicitly NOT included?
 5. **Customer Considerations** — any customer-specific context?
 6. **Documentation Considerations** — what docs need creating/updating?
 7. **Upstream engagement** — does this need Backstage community alignment?
 
-After the template questions, infer all Jira fields from the conversation per the Field Inference section in `references/grill.md`. Present recommendations for confirmation. Key fields for Features: Priority, Team, Size (T-shirt), Assignee (Feature Owner), and Labels (`demo`, `rhdh-X.Y-candidate`, `stretch`).
+Skip questions the draft already answered well.
+
+**1c. Challenge.** Follow the challenging behavior in `references/grill.md` on the completed draft.
+
+**1d. Infer fields.** Infer all Jira fields from the conversation per the Field Inference section in `references/grill.md`. Present recommendations for confirmation. Key fields for Features: Priority, Team, Size (T-shirt), Assignee (Feature Owner), and Labels (`demo`, `rhdh-X.Y-candidate`, `stretch`).
 
 ### Step 2 — Duplicate Check and Feature Request Link
 

@@ -15,17 +15,25 @@ If chained, the parent Feature key is known. If standalone, ask: "Is this Epic p
 
 ### Step 2 — Grill
 
-Load `assets/templates/epic.txt` for structure and `assets/examples/epic-example.txt` for tone calibration. Follow the challenging behavior in `references/grill.md`.
+Load `assets/templates/epic.txt` for structure and `assets/examples/epic-example.txt` for tone calibration.
 
-Ask one question at a time. Adapt based on entry mode.
+**2a. Synthesize from context.** Draft as many template sections as possible from the conversation (and parent Feature if chained):
 
-**Chained grill (narrowed):**
+- EPIC Goal, Background/Feature Origin, Why important, User Scenarios, Dependencies, AC
+
+If chained from a Feature, pre-fill: Goal (scoped to this team's delivery), Background (link to parent Feature), Dependencies (other Epics in the Feature).
+
+Present the draft: "Here's what I have for this Epic. Review and tell me what's missing."
+
+**2b. Fill gaps.** For unfilled sections, ask targeted questions. Adapt based on entry mode:
+
+**Chained (narrowed):**
 
 1. **EPIC Goal** — what does *this team's* delivery achieve within the parent Feature?
-2. **Dependencies** — internal (other Epics in the Feature) and external (upstream, other teams)
-3. **Acceptance Criteria** — team-specific AC. Which checklist items apply? (DEV, QE, DOC)
+2. **Dependencies** — internal (other Epics) and external (upstream, other teams)
+3. **Acceptance Criteria** — team-specific. Which checklist items apply? (DEV, QE, DOC)
 
-**Standalone grill (full):**
+**Standalone (full):**
 
 1. **EPIC Goal** — what are we trying to solve?
 2. **Background/Feature Origin** — where did this come from?
@@ -34,7 +42,11 @@ Ask one question at a time. Adapt based on entry mode.
 5. **Dependencies** — internal and external
 6. **Acceptance Criteria** — full checklist
 
-After the template questions, infer all Jira fields from the conversation per the Field Inference section in `references/grill.md`. If chained from a Feature, inherit Priority and Team from the parent. Present recommendations for confirmation. Key fields for Epics: Team, Priority, Size (T-shirt), Component, and Assignee (Epic Owner).
+Skip questions the draft already answered.
+
+**2c. Challenge.** Follow the challenging behavior in `references/grill.md`.
+
+**2d. Infer fields.** Infer all Jira fields per `references/grill.md` Field Inference. If chained, inherit Priority and Team from parent Feature. Key fields: Team, Priority, Size (T-shirt), Component, Assignee (Epic Owner).
 
 ### Step 3 — Duplicate Check
 

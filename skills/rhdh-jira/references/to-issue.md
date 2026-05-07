@@ -34,11 +34,17 @@ If the user disagrees, adjust. Additional disambiguation questions:
 - Bug project: "Is this from a support case? (RHDHSUPP) Or a product defect? (RHDHBUGS)"
 - Vulnerability: "Is this a CVE or security advisory? (Vulnerability in RHIDP with Security component)"
 
-### Step 3 — Grill
+### Step 3 — Draft and Grill
 
-Load the appropriate template from `assets/templates/`. If an example exists in `assets/examples/`, load it for tone calibration (not all types have examples — see `references/templates.md` for which do). Follow the challenging behavior in `references/grill.md`.
+Load the appropriate template from `assets/templates/`. If an example exists in `assets/examples/`, load it for tone calibration (see `references/templates.md` for which types have examples).
 
-**Story questions:**
+**3a. Synthesize from context.** Draft as many template sections as possible from the conversation (and parent Epic if chained). If chained, pre-fill Background (link to parent Epic) and Dependencies.
+
+Present the draft: "Here's what I have. Review and tell me what's missing."
+
+**3b. Fill gaps.** For unfilled sections, ask targeted questions based on the inferred type:
+
+**Story gaps:**
 
 1. **User story** — "As a \<persona\> trying to \<action\> I want \<outcome\>"
 2. **Background** — context and motivation
@@ -47,14 +53,14 @@ Load the appropriate template from `assets/templates/`. If an example exists in 
 5. **Dependencies** — linked Stories/Epics, QE/Doc impact
 6. **Acceptance Criteria** — edge cases, minimum test list, docs/demo/SOP needs
 
-**Task questions:**
+**Task gaps:**
 
 1. **Task description** — what needs to happen and why
 2. **Background** — context if not obvious
 3. **Dependencies and Blockers** — QE/Doc impact
 4. **Acceptance Criteria** — what does "done" look like
 
-**Bug questions:**
+**Bug gaps:**
 
 1. **Description of problem** — what's wrong
 2. **Prerequisites** — setup, versions, operators
@@ -65,14 +71,18 @@ Load the appropriate template from `assets/templates/`. If an example exists in 
 7. **Build Details** — version, environment
 8. **Additional info** — logs, screenshots
 
-**Spike questions:**
+**Spike gaps:**
 
 1. **What are we investigating?** — the question to answer
 2. **Why?** — what decision depends on this research
 3. **Time-box** — "How many story points to allocate?" (required for spikes)
-4. **Expected output** — what deliverable closes this spike (doc, ADR, prototype, recommendation)
+4. **Expected output** — what deliverable closes this spike (doc, ADR, prototype, go/no-go recommendation)
 
-After the template questions, infer all Jira fields from the conversation per the Field Inference section in `references/grill.md`. If chained from an Epic, inherit Priority, Team, and Component from the parent. Present recommendations for confirmation. Key fields: Priority, Component, Assignee, and Story Points (required for Spikes as time-box).
+Skip questions the draft already answered.
+
+**3c. Challenge.** Follow the challenging behavior in `references/grill.md`.
+
+**3d. Infer fields.** Infer all Jira fields per `references/grill.md` Field Inference. If chained, inherit Priority, Team, and Component from parent Epic. Key fields: Priority, Component, Assignee, and Story Points (required for Spikes as time-box).
 
 ### Step 4 — Duplicate Check
 

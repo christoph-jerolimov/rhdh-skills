@@ -32,9 +32,37 @@ After the grill questions are complete, present all inferred fields at once:
 | **Priority** | Severity of the problem, customer impact, blocker language, urgency words. Default to Major unless clear signals suggest otherwise. |
 | **Team** | Components mentioned, domain area, who the user is, parent issue's team, which team owns the affected code. |
 | **Size** | AC count, dependency count, complexity signals from the grill ("need to investigate", "multiple PRs", "cross-team"). Cross-reference against `references/sizing.md`. |
-| **Component** | Technical domain discussed (RBAC, plugins, catalog, helm, operator, CI/CD, docs). Match against known components in `references/fields.md`. |
+| **Component** | Technical domain discussed (RBAC, plugins, catalog, helm, operator, CI/CD, docs). Match against known components in `references/fields.md`. Also check codebase context — if the user has been editing files during the session, infer from file paths (see below). |
 | **Assignee** | If the user is describing their own work, suggest them. Otherwise, run a lightweight expertise match from the conversation context (component + domain keywords against team roster). For deep analysis, suggest running `assign`. |
 | **Labels** | Customer-facing → `demo`. Release target mentioned → `rhdh-X.Y-candidate`. Stretch goal language → `stretch`. Support origin → `rhdh-customer`. |
+
+### Codebase-aware component inference
+
+If the session involved editing or reading files, use the file paths to infer the component:
+
+```bash
+# Check recently modified files in the working tree
+git diff --name-only HEAD~3 2>/dev/null | head -20
+```
+
+Path-to-component signals:
+
+| Path pattern | Component |
+|--------------|-----------|
+| `plugins/catalog/`, `catalog-backend` | Catalog |
+| `plugins/rbac/`, `rbac-backend` | RBAC |
+| `plugins/tekton/` | Tekton |
+| `plugins/topology/` | Topology |
+| `plugins/lightspeed/` | Lightspeed |
+| `plugins/bulk-import/` | Bulk Import |
+| `packages/backend/`, `packages/app/` | Build |
+| `docker/`, `Dockerfile`, `Containerfile` | Build |
+| `charts/`, `helm/` | Helm |
+| `docs/`, `*.md` in doc paths | Documentation |
+| `e2e/`, `playwright/`, `cypress/` | Test Framework |
+| `.github/`, `ci/`, `.tekton/` | CI/CD |
+
+This is a hint, not definitive. Present as: "You've been working in `plugins/catalog/` — setting Component to Catalog." The user can override.
 
 ### When inference is weak
 
