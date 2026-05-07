@@ -4,17 +4,19 @@ Create a RHDHPLAN Feature from conversation context. Grills the user on scope, c
 
 ## Workflow
 
-### Step 1 — Draft and Grill
+### Step 1 — Draft from Context
 
 Load `assets/templates/feature.txt` for structure and `assets/examples/feature-example.txt` for tone calibration.
 
-**1a. Synthesize from context.** Before asking questions, review what the conversation already established. Draft as many template sections as possible from existing context:
+Before asking questions, review what the conversation already established. Draft as many template sections as possible from existing context:
 
 - Feature Overview, Goals, AC, Out of Scope, Customer Considerations, Documentation, Upstream engagement
 
 Present the draft: "Based on our conversation, here's what I have so far. Review and tell me what's missing or wrong."
 
-**1b. Fill gaps.** For any template sections the agent couldn't fill from context, ask targeted questions (one at a time):
+### Step 2 — Fill Gaps
+
+For any template sections the agent couldn't fill from context, ask targeted questions (one at a time):
 
 1. **Feature Overview** — what is this? Elevator pitch.
 2. **Goals** — what does the user get? Which persona benefits?
@@ -26,11 +28,15 @@ Present the draft: "Based on our conversation, here's what I have so far. Review
 
 Skip questions the draft already answered well.
 
-**1c. Challenge.** Follow the challenging behavior in `references/grill.md` on the completed draft.
+### Step 3 — Challenge
 
-**1d. Infer fields.** Infer all Jira fields from the conversation per the Field Inference section in `references/grill.md`. Present recommendations for confirmation. Key fields for Features: Priority, Team, Size (T-shirt), Assignee (Feature Owner), and Labels (`demo`, `rhdh-X.Y-candidate`, `stretch`).
+Follow the challenging behavior in `references/grill.md` on the completed draft.
 
-### Step 2 — Duplicate Check and Feature Request Link
+### Step 4 — Infer Fields
+
+Infer all Jira fields from the conversation per the Field Inference section in `references/grill.md`. Present recommendations for confirmation. Key fields for Features: Priority, Team, Size (T-shirt), Assignee (Feature Owner), and Labels (`demo`, `rhdh-X.Y-candidate`, `stretch`).
+
+### Step 5 — Duplicate Check and Feature Request Link
 
 Before creating, run the pre-creation check from `references/duplicates.md` using the proposed summary. Search RHDHPLAN Features specifically (`issuetype = Feature`).
 
@@ -44,7 +50,7 @@ If a matching Feature Request is found: "Found accepted Feature Request {KEY}: {
 
 If a likely duplicate Feature is found, present it and ask: "This may already exist as {KEY}: {summary}. Use the existing issue instead?"
 
-### Step 3 — Create Feature
+### Step 6 — Create Feature
 
 Fill the template with grill results. Save to a temp file. Create the issue:
 
@@ -60,7 +66,7 @@ acli jira workitem create --project RHDHPLAN --type Feature \
 
 Set additional fields via REST if needed (Team, Size) — follow API preference order in SKILL.md.
 
-### Step 4 — Comments
+### Step 7 — Comments
 
 After creation, proactively suggest adding comments for context that doesn't belong in the description:
 
@@ -74,7 +80,7 @@ Add each approved comment via:
 acli jira workitem comment --key RHDHPLAN-XXX --comment "comment text" --yes
 ```
 
-### Step 5 — Chain Decomposition
+### Step 8 — Chain Decomposition
 
 After the Feature is created:
 

@@ -34,15 +34,17 @@ If the user disagrees, adjust. Additional disambiguation questions:
 - Bug project: "Is this from a support case? (RHDHSUPP) Or a product defect? (RHDHBUGS)"
 - Vulnerability: "Is this a CVE or security advisory? (Vulnerability in RHIDP with Security component)"
 
-### Step 3 — Draft and Grill
+### Step 3 — Draft from Context
 
 Load the appropriate template from `assets/templates/`. If an example exists in `assets/examples/`, load it for tone calibration (see `references/templates.md` for which types have examples).
 
-**3a. Synthesize from context.** Draft as many template sections as possible from the conversation (and parent Epic if chained). If chained, pre-fill Background (link to parent Epic) and Dependencies.
+Synthesize: Draft as many template sections as possible from the conversation (and parent Epic if chained). If chained, pre-fill Background (link to parent Epic) and Dependencies.
 
 Present the draft: "Here's what I have. Review and tell me what's missing."
 
-**3b. Fill gaps.** For unfilled sections, ask targeted questions based on the inferred type:
+### Step 4 — Fill Gaps
+
+For unfilled sections, ask targeted questions based on the inferred type:
 
 **Story gaps:**
 
@@ -80,15 +82,19 @@ Present the draft: "Here's what I have. Review and tell me what's missing."
 
 Skip questions the draft already answered.
 
-**3c. Challenge.** Follow the challenging behavior in `references/grill.md`.
+### Step 5 — Challenge
 
-**3d. Infer fields.** Infer all Jira fields per `references/grill.md` Field Inference. If chained, inherit Priority, Team, and Component from parent Epic. Key fields: Priority, Component, Assignee, and Story Points (required for Spikes as time-box).
+Follow the challenging behavior in `references/grill.md`.
 
-### Step 4 — Duplicate Check
+### Step 6 — Infer Fields
+
+Infer all Jira fields per `references/grill.md` Field Inference. If chained, inherit Priority, Team, and Component from parent Epic. Key fields: Priority, Component, Assignee, and Story Points (required for Spikes as time-box).
+
+### Step 7 — Duplicate Check
 
 Run the pre-creation check from `references/duplicates.md`. Scope to the target project and type.
 
-### Step 5 — Create Issue
+### Step 8 — Create Issue
 
 Fill the template. Create the issue:
 
@@ -127,7 +133,7 @@ curl -s -X PUT -u "$AUTH" -H "Content-Type: application/json" \
 
 Set Story Points via REST if acli fails — follow API preference order in SKILL.md.
 
-### Step 6 — Comments
+### Step 9 — Comments
 
 Follow the comment suggestion behavior from `references/grill.md` — proactively suggest decision trail, elaboration, and abandoned paths as comments.
 

@@ -13,11 +13,11 @@ Two entry modes:
 
 If chained, the parent Feature key is known. If standalone, ask: "Is this Epic part of an existing Feature? [Feature key / no]"
 
-### Step 2 — Grill
+### Step 2 — Draft from Context
 
 Load `assets/templates/epic.txt` for structure and `assets/examples/epic-example.txt` for tone calibration.
 
-**2a. Synthesize from context.** Draft as many template sections as possible from the conversation (and parent Feature if chained):
+Synthesize: Draft as many template sections as possible from the conversation (and parent Feature if chained):
 
 - EPIC Goal, Background/Feature Origin, Why important, User Scenarios, Dependencies, AC
 
@@ -25,7 +25,9 @@ If chained from a Feature, pre-fill: Goal (scoped to this team's delivery), Back
 
 Present the draft: "Here's what I have for this Epic. Review and tell me what's missing."
 
-**2b. Fill gaps.** For unfilled sections, ask targeted questions. Adapt based on entry mode:
+### Step 3 — Fill Gaps
+
+For unfilled sections, ask targeted questions. Adapt based on entry mode:
 
 **Chained (narrowed):**
 
@@ -44,15 +46,19 @@ Present the draft: "Here's what I have for this Epic. Review and tell me what's 
 
 Skip questions the draft already answered.
 
-**2c. Challenge.** Follow the challenging behavior in `references/grill.md`.
+### Step 4 — Challenge
 
-**2d. Infer fields.** Infer all Jira fields per `references/grill.md` Field Inference. If chained, inherit Priority and Team from parent Feature. Key fields: Team, Priority, Size (T-shirt), Component, Assignee (Epic Owner).
+Follow the challenging behavior in `references/grill.md`.
 
-### Step 3 — Duplicate Check
+### Step 5 — Infer Fields
+
+Infer all Jira fields per `references/grill.md` Field Inference. If chained, inherit Priority and Team from parent Feature. Key fields: Team, Priority, Size (T-shirt), Component, Assignee (Epic Owner).
+
+### Step 6 — Duplicate Check
 
 Run the pre-creation check from `references/duplicates.md`. Search RHIDP Epics (`issuetype = Epic`).
 
-### Step 4 — Create Epic
+### Step 7 — Create Epic
 
 Fill the template. Create the issue:
 
@@ -76,7 +82,7 @@ curl -s -X PUT -u "$AUTH" -H "Content-Type: application/json" \
 
 Set Team and Size via REST — follow API preference order in SKILL.md.
 
-### Step 5 — Comments
+### Step 8 — Comments
 
 Proactively suggest comments for:
 
@@ -86,7 +92,7 @@ Proactively suggest comments for:
 
 Add via `acli jira workitem comment --key RHIDP-XXX --comment "text" --yes`.
 
-### Step 6 — Chain Decomposition
+### Step 9 — Chain Decomposition
 
 After the Epic is created:
 
