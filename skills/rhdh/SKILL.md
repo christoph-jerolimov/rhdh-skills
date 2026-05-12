@@ -108,7 +108,7 @@ What would you like to do?
 
 *For testing PR changes on a live RHDH cluster*
 
-8. **Review operator PR** — Swap CI images into cluster and get review checklist
+8. **Review operator PR** — Deploy PR operator bundle on cluster and get review checklist
 
 ### General Tasks
 
