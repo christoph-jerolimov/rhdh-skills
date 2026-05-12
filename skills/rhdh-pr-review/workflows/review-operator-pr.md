@@ -476,7 +476,7 @@ When done testing, rollback the operator image:
 
 ## Phase 6: Active Verification
 
-Test the PR's actual changes on the live cluster. Use the diff from Phase 1 and the operator architecture from `../../rhdh/references/rhdh-repos.md` to understand what changed.
+**This phase verifies the PR's specific code changes on the cluster — not generic health checks.** The goal is to exercise the exact code paths the PR modified and capture evidence that the behavioral change works as intended.
 
 ### 6.1 Analyze the diff
 
@@ -486,19 +486,24 @@ Read the diff hunks from Phase 1. For each changed file, understand:
 - What it does **after**
 - What behavioral difference this introduces on a running cluster
 
+Map each changed code path to a concrete cluster-observable effect — something you can trigger and measure on the running cluster. If a code change has no cluster-observable effect (e.g., pure refactor with identical behavior), state that explicitly and explain why.
+
 ### 6.2 Propose a verification plan
 
-Based on the analysis, propose a concrete plan to the user:
+Present the plan to the user. For each test, specify:
 
-- What cluster actions will exercise the changed code paths
-- What to observe (logs, pod spec, CR status, events) to confirm the fix works
-- What constitutes a pass or fail
+- **What to do**: the exact cluster action (create resource, edit CR, delete pod, etc.)
+- **What to observe**: where to look (logs, pod spec, CR status, events, API response)
+- **Pass criteria**: what output means the fix works
+- **Fail criteria**: what output means the fix is broken
 
-**Wait for the user to accept the plan before proceeding.**
+**STOP. Do not run any verification commands. Present the plan and wait for the user to accept it before proceeding to 6.3.**
 
 ### 6.3 Execute the plan
 
-Run the accepted verification steps on the cluster. Capture evidence (operator logs, pod specs, events, CR status) as you go.
+Only after the user accepts the plan:
+
+Run each verification step on the cluster. For every step, capture the actual command output as evidence. Do not summarize — show the raw output so the user can see exactly what happened.
 
 ---
 
