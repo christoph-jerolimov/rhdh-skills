@@ -53,6 +53,10 @@ Track work across the four RHDH Jira projects.
 
 - **[rhdh-pr-review](./skills/rhdh-pr-review/SKILL.md)** — Test PR changes on a live RHDH cluster. Swaps CI images, verifies code changes, and reports findings.
 
+### Test Plan
+
+- **[rhdh-test-plan-review](./skills/rhdh-test-plan-review/SKILL.md)** — Reviews an RHDH test plan Jira ticket and suggests platform/integration version updates based on support lifecycle pages and RHDH release milestones
+
 ### Orchestration
 
 - **[rhdh](./skills/rhdh/SKILL.md)** — Entry point and router. Detects your environment, runs `doctor` checks, maintains a cross-session worklog, and routes to the right skill. Start here if you're not sure what you need.

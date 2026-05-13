@@ -110,10 +110,16 @@ What would you like to do?
 
 8. **Review operator PR** — Deploy PR operator bundle on cluster and get review checklist
 
+### Test Plan Tasks
+
+*For rhdh test plan review in jira* 
+
+9. **Review Test Plan content** — Reviews an RHDH test plan Jira ticket and suggests platform/integration version updates based on support lifecycle pages and RHDH release milestones
+
 ### General Tasks
 
-9. **Check environment** — Run doctor, configure paths
-10. **View/search activity** — Review worklog, todos
+10. **Check environment** — Run doctor, configure paths
+11. **View/search activity** — Review worklog, todos
 
 **Wait for response before proceeding.**
 </intake>
@@ -159,12 +165,20 @@ What would you like to do?
 
 **To route:** Read `../rhdh-pr-review/SKILL.md` and follow its intake process.
 
+### Test Plan Routes
+
+| Response | Skill |
+|----------|-------|
+| 9, "review test plan", "update test plan", "check platform versions in test plan", "review RHDH test plan" | Route to `@rhdh-test-plan-review` skill |
+
+**To route:** Read `../rhdh-test-plan-review/SKILL.md` and follow its intake process.
+
 ### General Routes
 
 | Response | Action |
 |----------|--------|
-| 9, "doctor", "setup", "config" | Use CLI commands below |
-| 10, "log", "todo", "activity" | Use tracking commands below |
+| 10, "doctor", "setup", "config" | Use CLI commands below |
+| 11, "log", "todo", "activity" | Use tracking commands below |
 
 </routing>
 
