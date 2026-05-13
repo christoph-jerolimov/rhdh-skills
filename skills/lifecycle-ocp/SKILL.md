@@ -32,25 +32,25 @@ Use this skill when you need to check version support status before:
 Run the bundled script:
 
 ```bash
-python "${SKILL_DIR}/scripts/check_ocp_lifecycle.py"
+python scripts/check_ocp_lifecycle.py
 ```
 
 ### Check a specific OCP version
 
 ```bash
-python "${SKILL_DIR}/scripts/check_ocp_lifecycle.py" --version 4.16
+python scripts/check_ocp_lifecycle.py --version 4.16
 ```
 
 ### Check a specific RHDH version
 
 ```bash
-python "${SKILL_DIR}/scripts/check_ocp_lifecycle.py" --rhdh-version 1.9
+python scripts/check_ocp_lifecycle.py --rhdh-version 1.9
 ```
 
 ### Show only RHDH lifecycle (skip OCP table)
 
 ```bash
-python "${SKILL_DIR}/scripts/check_ocp_lifecycle.py" --rhdh-only
+python scripts/check_ocp_lifecycle.py --rhdh-only
 ```
 
 ## Output

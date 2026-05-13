@@ -26,7 +26,7 @@ description: >-
 1. Run the lifecycle check script:
 
 ```bash
-uv run "${SKILL_DIR}/scripts/check_aks_lifecycle.py" \
+uv run scripts/check_aks_lifecycle.py \
   --mapt-ref ci-operator/step-registry/redhat-developer/rhdh/aks/mapt/create/redhat-developer-rhdh-aks-mapt-create-ref.yaml \
   --test-pattern "^e2e-aks-"
 ```

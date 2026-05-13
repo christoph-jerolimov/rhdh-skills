@@ -29,13 +29,13 @@ Use this skill when you need to:
 Run the bundled script (works from any directory):
 
 ```bash
-uv run "${SKILL_DIR}/scripts/list_cluster_pools.py"
+uv run scripts/list_cluster_pools.py
 ```
 
 ### Override repo location
 
 ```bash
-uv run "${SKILL_DIR}/scripts/list_cluster_pools.py" --repo-dir /path/to/openshift/release
+uv run scripts/list_cluster_pools.py --repo-dir /path/to/openshift/release
 ```
 
 ### Output format
@@ -57,19 +57,19 @@ The script outputs a table with columns:
 Use the bundled generation script:
 
 ```bash
-uv run "${SKILL_DIR}/scripts/generate_cluster_pool.py" --version 4.22
+uv run scripts/generate_cluster_pool.py --version 4.22
 ```
 
 ### With a specific reference pool
 
 ```bash
-uv run "${SKILL_DIR}/scripts/generate_cluster_pool.py" --version 4.22 --reference 4.21
+uv run scripts/generate_cluster_pool.py --version 4.22 --reference 4.21
 ```
 
 ### Preview without writing (dry-run)
 
 ```bash
-uv run "${SKILL_DIR}/scripts/generate_cluster_pool.py" --version 4.22 --dry-run
+uv run scripts/generate_cluster_pool.py --version 4.22 --dry-run
 ```
 
 ### What the script does

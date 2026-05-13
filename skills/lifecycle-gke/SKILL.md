@@ -26,7 +26,7 @@ GKE uses a pre-existing long-running cluster. The K8s version is NOT in CI confi
 1. Run the lifecycle check script:
 
 ```bash
-python "${SKILL_DIR}/scripts/check_gke_lifecycle.py"
+python scripts/check_gke_lifecycle.py
 ```
 
 The script queries:

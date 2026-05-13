@@ -27,7 +27,7 @@ description: >-
 1. Run the lifecycle check script:
 
 ```bash
-uv run "${SKILL_DIR}/scripts/check_eks_lifecycle.py" \
+uv run scripts/check_eks_lifecycle.py \
   --mapt-ref ci-operator/step-registry/redhat-developer/rhdh/eks/mapt/create/redhat-developer-rhdh-eks-mapt-create-ref.yaml \
   --test-pattern "^e2e-eks-"
 ```

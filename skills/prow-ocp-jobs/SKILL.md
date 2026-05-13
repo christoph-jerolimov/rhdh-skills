@@ -39,19 +39,19 @@ Use this skill when you need to:
 Run the bundled script (works from any directory):
 
 ```bash
-uv run "${SKILL_DIR}/scripts/list_ocp_test_configs.py"
+uv run scripts/list_ocp_test_configs.py
 ```
 
 ### Filter by product branch
 
 ```bash
-uv run "${SKILL_DIR}/scripts/list_ocp_test_configs.py" --branch main
+uv run scripts/list_ocp_test_configs.py --branch main
 ```
 
 ### Override repo location
 
 ```bash
-uv run "${SKILL_DIR}/scripts/list_ocp_test_configs.py" --repo-dir /path/to/openshift/release
+uv run scripts/list_ocp_test_configs.py --repo-dir /path/to/openshift/release
 ```
 
 ### Output format
@@ -73,13 +73,13 @@ e2e-ocp-v4-19-helm-nightly                     4.19          0 5 * * TUE,THU,SAT
 Use the bundled script to generate a new test entry YAML block:
 
 ```bash
-uv run "${SKILL_DIR}/scripts/generate_test_entry.py" --version 4.22 --branch main
+uv run scripts/generate_test_entry.py --version 4.22 --branch main
 ```
 
 ### With a specific reference version
 
 ```bash
-uv run "${SKILL_DIR}/scripts/generate_test_entry.py" --version 4.22 --branch main --reference 4.21
+uv run scripts/generate_test_entry.py --version 4.22 --branch main --reference 4.21
 ```
 
 The script outputs a ready-to-insert YAML block based on an existing versioned test entry with all version-specific values substituted.

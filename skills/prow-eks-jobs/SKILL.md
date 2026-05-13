@@ -26,19 +26,19 @@ List EKS test entries and update the K8s version used by EKS MAPT clusters.
 ## Listing Tests
 
 ```bash
-uv run "${SKILL_DIR}/scripts/list_eks_jobs.py"
+uv run scripts/list_eks_jobs.py
 ```
 
 ### Filter by branch
 
 ```bash
-uv run "${SKILL_DIR}/scripts/list_eks_jobs.py" --branch main
+uv run scripts/list_eks_jobs.py --branch main
 ```
 
 ### Override repo location
 
 ```bash
-uv run "${SKILL_DIR}/scripts/list_eks_jobs.py" --repo-dir /path/to/openshift/release
+uv run scripts/list_eks_jobs.py --repo-dir /path/to/openshift/release
 ```
 
 ## Updating the Version (requires local checkout)

@@ -37,13 +37,13 @@ This skill composes data from:
 Run the bundled analysis script:
 
 ```bash
-uv run "${SKILL_DIR}/scripts/analyze_coverage.py"
+uv run scripts/analyze_coverage.py
 ```
 
 ### Override repo location
 
 ```bash
-uv run "${SKILL_DIR}/scripts/analyze_coverage.py" --repo-dir /path/to/openshift/release
+uv run scripts/analyze_coverage.py --repo-dir /path/to/openshift/release
 ```
 
 ## Two Dimensions of Support
