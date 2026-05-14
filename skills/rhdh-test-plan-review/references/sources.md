@@ -75,12 +75,24 @@ URLs and extraction guidance for each platform and integration. Load this file d
 ### RHBK (Red Hat Build of Keycloak)
 
 **URL:** https://access.redhat.com/product-life-cycles/api/v1/products/?name=Red+Hat+build+of+Keycloak  
-**What to extract:** JSON response — each entry has a version name, GA date, and EOL date. Use the minor version entries (e.g., `26.0`, `26.2`, `26.4`) to determine which **major versions** are still active — do not list minor versions in the table. A major version is active if at least one of its minor releases is GA on or before `code_freeze` and not EOL before `ga_date`. Report only the major version number (e.g., `26`).
+**What to extract:** JSON response — each version entry has a `name` and a `phases` array. Extract dates from the phases array — **not** from a top-level `ga_date` field (there is none).
+
+Phase extraction rules:
+- **GA date**: `phases[name == "General availability"].end_date` — this is when the GA phase ended (i.e., when the product became GA). The `start_date` of this phase is always `"N/A"`.
+- **EOL date**: the `end_date` of the last phase that has a real date (not `"N/A"`). Typically the last of: Maintenance support, Extended update support Term 2, etc.
+
+Use minor version entries (e.g., `26.0`, `26.2`, `26.4`) to determine which **major versions** are still active — do not list minor versions in the table. A major version is active if at least one of its minor releases is GA on or before `code_freeze` and not EOL before `ga_date`. Report only the major version number (e.g., `26`).
 
 ### Quay (Red Hat Quay)
 
 **URL:** https://access.redhat.com/product-life-cycles/api/v1/products/?name=Red+Hat+Quay  
-**What to extract:** JSON response — each entry has a version name, GA date, and EOL date. Identify only the **latest version** with a known GA date on or before `code_freeze`.
+**What to extract:** JSON response — each version entry has a `name` and a `phases` array. Extract dates from the phases array — **not** from a top-level `ga_date` field (there is none).
+
+Phase extraction rules:
+- **GA date**: `phases[name == "General availability"].end_date` — this is when the GA phase ended (i.e., when the product became generally available). The `start_date` of this phase is always `"N/A"`.
+- **EOL date**: the `end_date` of the last phase that has a real date (not `"N/A"`).
+
+Identify only the **latest version** with a GA date on or before `code_freeze`. Suggest replacing the current version with that latest version.
 
 ## Date Interpretation Rules
 
