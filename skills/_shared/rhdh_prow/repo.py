@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Resolve the openshift/release repository root for local or remote access.
 
 Resolution order:
@@ -13,6 +12,7 @@ Usage (in consuming scripts):
 """
 
 import os
+import sys
 from pathlib import Path
 
 # Sentinel path that identifies an openshift/release checkout.
@@ -35,7 +35,7 @@ def resolve_repo_root(explicit_dir=None):
             return p.resolve(), False
         print(
             f"WARNING: explicit dir {explicit_dir} does not contain {_SENTINEL}",
-            file=__import__("sys").stderr,
+            file=sys.stderr,
         )
 
     # 2. Environment variable
@@ -46,7 +46,7 @@ def resolve_repo_root(explicit_dir=None):
             return p.resolve(), False
         print(
             f"WARNING: OPENSHIFT_RELEASE_DIR is set but {_SENTINEL} not found there",
-            file=__import__("sys").stderr,
+            file=sys.stderr,
         )
 
     # 3. Walk up from cwd

@@ -1,8 +1,3 @@
-#!/usr/bin/env -S uv run --script
-# /// script
-# requires-python = ">=3.9"
-# dependencies = ["ruamel.yaml"]
-# ///
 """Fetch and parse YAML files from the openshift/release repository.
 
 Supports both local checkout and remote GitHub API access. Provides

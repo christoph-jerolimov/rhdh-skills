@@ -42,6 +42,9 @@ def main(argv=None):
 
     # Fetch OCP lifecycle data
     ocp_response = fetch_lifecycle_api("Red Hat OpenShift Container Platform")
+    if ocp_response is None:
+        print("ERROR: Failed to fetch OCP lifecycle data", file=sys.stderr)
+        sys.exit(1)
     ocp_data = classify_ocp_versions(ocp_response, today)
 
     if args.version:
@@ -52,6 +55,9 @@ def main(argv=None):
 
     # Fetch RHDH data for the RHDH_SUPP cross-reference column
     rhdh_response = fetch_lifecycle_api("Red Hat Developer Hub")
+    if rhdh_response is None:
+        print("ERROR: Failed to fetch RHDH lifecycle data", file=sys.stderr)
+        sys.exit(1)
     rhdh_data = parse_rhdh_versions(rhdh_response)
     supported_ocp = rhdh_supported_ocp_versions(rhdh_data)
 

@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """OCP lifecycle phase classification.
 
 Classifies OCP versions from the Red Hat Product Life Cycles API into
@@ -13,7 +12,7 @@ Usage:
 
 import re
 
-from rhdh_lifecycle.redhat import _is_date, _to_date
+from rhdh_lifecycle.redhat import is_date, to_date
 
 
 def classify_ocp_versions(api_data, today):
@@ -51,7 +50,7 @@ def classify_ocp_versions(api_data, today):
         for pname in phase_order:
             for p in phases:
                 if p.get("name") == pname:
-                    d = _to_date(p.get("end_date"))
+                    d = to_date(p.get("end_date"))
                     if d:
                         end_dates.append(d)
         end_of_support = max(end_dates) if end_dates else None
@@ -69,14 +68,14 @@ def classify_ocp_versions(api_data, today):
             for p in phases:
                 if p.get("name") != pname:
                     continue
-                start = _to_date(p.get("start_date"))
+                start = to_date(p.get("start_date"))
                 end_raw = p.get("end_date")
-                end = _to_date(end_raw)
+                end = to_date(end_raw)
                 if start and start <= today:
                     if end and end >= today:
                         current_phase = pname
                         break
-                    elif not _is_date(end_raw) and end_raw not in (
+                    elif not is_date(end_raw) and end_raw not in (
                         "N/A",
                         "",
                         None,
@@ -92,7 +91,7 @@ def classify_ocp_versions(api_data, today):
                 "version": ver["name"],
                 "ocp_supported": current_phase != "End of life",
                 "phase": current_phase,
-                "ga_date": _to_date(ga_raw) if _is_date(ga_raw) else "N/A",
+                "ga_date": to_date(ga_raw) if is_date(ga_raw) else "N/A",
                 "end_of_support_date": end_of_support or "N/A",
             }
         )

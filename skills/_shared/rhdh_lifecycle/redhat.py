@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Unified client for the Red Hat Product Life Cycles API.
 
 Fetches lifecycle data for any Red Hat product (RHDH, OCP, RHBK, Quay, etc.)
@@ -33,16 +32,16 @@ PRODUCT_ALIASES = {
 }
 
 
-def _is_date(val):
+def is_date(val):
     """Return True if val looks like a YYYY-MM-DD date string."""
     if not val or not isinstance(val, str):
         return False
     return bool(re.match(r"^\d{4}-\d{2}-\d{2}", val))
 
 
-def _to_date(val):
+def to_date(val):
     """Extract YYYY-MM-DD from a date string, or None."""
-    if _is_date(val):
+    if is_date(val):
         return val[:10]
     return None
 
@@ -52,13 +51,13 @@ def _phase_date(phases, phase_name):
     for p in phases:
         if p.get("name") == phase_name:
             d = p.get("end_date", "N/A")
-            if d and isinstance(d, str) and _is_date(d):
+            if d and isinstance(d, str) and is_date(d):
                 return d[:10]
             return str(d) if d else "N/A"
     return "N/A"
 
 
-def _ver_sort_key(version_str):
+def ver_sort_key(version_str):
     """Sort key for version strings like '4.16' or '26.2'."""
     try:
         return [int(x) for x in version_str.split(".")]
@@ -72,7 +71,10 @@ def resolve_product_name(product):
 
 
 def fetch_api(product_name):
-    """Fetch raw lifecycle data from the Red Hat Product Life Cycles API."""
+    """Fetch raw lifecycle data from the Red Hat Product Life Cycles API.
+
+    Returns the parsed JSON response, or None on failure.
+    """
     url = f"{LIFECYCLE_API_URL}?name={product_name.replace(' ', '+')}"
     req = urllib.request.Request(
         url, headers={"Accept": "application/json", "User-Agent": "rhdh-skill"}
@@ -82,7 +84,7 @@ def fetch_api(product_name):
             return json.loads(resp.read().decode("utf-8"))
     except (urllib.error.URLError, OSError) as exc:
         print(f"ERROR: Failed to fetch lifecycle data for {product_name}: {exc}", file=sys.stderr)
-        sys.exit(1)
+        return None
 
 
 def parse_versions(api_data, filter_version=None):
@@ -116,7 +118,7 @@ def parse_versions(api_data, filter_version=None):
         ga_date = phases.get("General availability", "N/A")
 
         # Latest end-of-support date across all non-GA phases
-        end_dates = [_to_date(d) for d in phases.values() if _to_date(d) and d != ga_date]
+        end_dates = [to_date(d) for d in phases.values() if to_date(d) and d != ga_date]
         end_date = max(end_dates) if end_dates else "N/A"
 
         # Product-specific extra fields
@@ -137,7 +139,7 @@ def parse_versions(api_data, filter_version=None):
             }
         )
 
-    results.sort(key=lambda v: _ver_sort_key(v["version"]))
+    results.sort(key=lambda v: ver_sort_key(v["version"]))
     return results
 
 
@@ -153,6 +155,8 @@ def fetch_product_lifecycle(product, filter_version=None):
     """
     full_name = resolve_product_name(product)
     api_data = fetch_api(full_name)
+    if api_data is None:
+        return []
     return parse_versions(api_data, filter_version)
 
 
@@ -194,7 +198,7 @@ def rhbk_major_versions(versions):
                 "active": info["any_active"],
                 "ga_date": min(info["ga_dates"]) if info["ga_dates"] else "N/A",
                 "end_date": max(info["end_dates"]) if info["end_dates"] else "N/A",
-                "minor_releases": sorted(info["minor_releases"], key=_ver_sort_key),
+                "minor_releases": sorted(info["minor_releases"], key=ver_sort_key),
             }
         )
     return results

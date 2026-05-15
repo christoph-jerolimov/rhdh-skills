@@ -107,6 +107,9 @@ def main(argv=None):
     print("--- RHDH Lifecycle ---")
     print("  Fetching from Red Hat Product Life Cycles API...")
     rhdh_response = fetch_lifecycle_api("Red Hat Developer Hub")
+    if rhdh_response is None:
+        print("  ERROR: Failed to fetch RHDH lifecycle data", file=sys.stderr)
+        sys.exit(1)
     from rhdh_lifecycle.rhdh import parse_rhdh_versions
 
     rhdh_data = parse_rhdh_versions(rhdh_response)
@@ -133,6 +136,9 @@ def main(argv=None):
     print("--- OCP Lifecycle ---")
     print("  Fetching from Red Hat Product Life Cycles API...")
     ocp_response = fetch_lifecycle_api("Red Hat OpenShift Container Platform")
+    if ocp_response is None:
+        print("  ERROR: Failed to fetch OCP lifecycle data", file=sys.stderr)
+        sys.exit(1)
     ocp_lifecycle = classify_ocp_versions(ocp_response, today)
 
     ocp_supported = [v["version"] for v in ocp_lifecycle if v["ocp_supported"]]
