@@ -51,6 +51,8 @@ Check each category. Note issues as you go.
 - [ ] Router table maps commands to reference files
 - [ ] All referenced workflow/reference files exist
 - [ ] Essential principles are in SKILL.md, not only in sub-command references
+- [ ] XML tags used consistently if skill has multiple semantic sections (see `references/xml-structure-guide.md`)
+- [ ] Tag names match the established vocabulary (`<essential_principles>`, `<intake>`, `<routing>`, `<reference_index>`, `<success_criteria>`)
 
 **Scripts** (if present):
 
@@ -140,7 +142,7 @@ Do not proceed to Phase 2 until the user confirms the scope is complete.
 
 Write the skill following the spec. Read `references/spec-guide.md` for the full format reference before drafting.
 
-**Starter templates:** Use `templates/simple-skill.md` for single-purpose skills or `templates/router-skill.md` for multi-command skills. Copy the template as a starting point, then customize.
+**Starter templates:** Use `templates/simple-skill.md` for single-purpose skills, `templates/router-skill.md` for multi-command skills using markdown headings, or `templates/router-skill-xml.md` for multi-command skills using XML structure. Copy the template as a starting point, then customize.
 
 ### Frontmatter
 
@@ -188,25 +190,38 @@ Common trap: a new sub-command reference duplicates tables from an existing refe
 
 Read `references/anti-patterns.md` during drafting to avoid known pitfalls.
 
+### XML structure (router and domain expertise skills)
+
+Agents parse XML tags more reliably than markdown headings when a skill has multiple semantically distinct sections (principles, intake, routing, references). Use XML tags as structural containers with markdown content inside.
+
+Read `references/xml-structure-guide.md` for the full tag vocabulary, patterns, and anti-patterns.
+
+**Format decision:**
+
+- **Simple skill** (single workflow) → Markdown headings. Not enough structure to benefit from XML.
+- **Router skill** (multiple commands) → XML tags for sections, markdown within.
+- **Domain expertise skill** (full lifecycle) → XML tags for sections, markdown within.
+
 ### Sub-command router (when applicable)
 
 For skills with multiple distinct operations, use a router table in SKILL.md.
 
-**Format choice:** Markdown headings work for most skills. For complex multi-agent orchestration or skills needing machine-parseable sections, XML tags (`<intake>`, `<routing>`, `<essential_principles>`) are also valid. You can mix them — XML tags for structural sections, markdown within content. Use whichever makes the skill easier to follow.
+```xml
+<intake>
+## What would you like to do?
 
-```markdown
-## Commands
+1. **Craft a feature** — Build end-to-end
+2. **Audit code** — Technical quality checks
 
-| Command | Description | Reference |
-|---|---|---|
-| `craft [feature]` | Build a feature end-to-end | [references/craft.md](references/craft.md) |
-| `audit [target]` | Technical quality checks | [references/audit.md](references/audit.md) |
+**Wait for response before proceeding.**
+</intake>
 
-### Routing rules
-
-1. **No argument**: Show the command menu. Ask what to do.
-2. **First word matches a command**: Load its reference file and follow it.
-3. **First word doesn't match**: General invocation using the full argument as context.
+<routing>
+| Response | Workflow |
+|----------|----------|
+| 1, "craft", "build" | `references/craft.md` |
+| 2, "audit", "check" | `references/audit.md` |
+</routing>
 ```
 
 Back the router with a `scripts/command-metadata.json` as the single source of truth:
@@ -364,6 +379,8 @@ Before presenting the final skill, verify against this checklist:
 - [ ] Setup gates are defined with fail actions for each gate
 - [ ] Register/mode system classifies before loading references
 - [ ] Capability-gated steps degrade gracefully with one-line skip reasons
+- [ ] Router/domain skills use XML tags for semantic sections (`references/xml-structure-guide.md`)
+- [ ] XML tag names are consistent with established vocabulary (no invented synonyms)
 
 ### References
 
