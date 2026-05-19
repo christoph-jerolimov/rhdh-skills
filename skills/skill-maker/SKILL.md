@@ -3,13 +3,29 @@ name: skill-maker
 description: Create, audit, or consolidate agent skills following the Agent Skills open standard (agentskills.io). Interviews the user relentlessly about intent, scope, and edge cases before drafting. Covers SKILL.md structure, frontmatter, progressive disclosure, description optimization, script bundling, sub-command architecture, setup gates, context systems, and review. Use when the user wants to create a skill, write a skill, build a new skill, make a skill, draft a SKILL.md, or mentions "skill-maker". Also use when asked to review a skill, audit a SKILL.md, check why a skill never triggers, improve an existing skill, or fix a skill. Also use when asked to package expertise, workflows, or domain knowledge into a reusable skill. Also use when asked to consolidate skills, merge skills, combine skills, reduce skill count, or refactor multiple skills into one.
 ---
 
+<intake>
+
 # Create, Audit, or Consolidate Skills
 
 Create agent skills following the [Agent Skills open standard](https://agentskills.io/specification).
 
-**If auditing an existing skill**, follow the Audit Workflow below instead of the creation phases.
+What do you need to do?
 
-**If consolidating existing skills** (merging multiple skills into fewer), read `references/consolidation-guide.md` and follow its workflow instead of the phases below. Return to Phase 5 (Review) for the final checklist.
+1. **Audit an existing skill** — Review, improve, or debug a SKILL.md
+2. **Create a new skill** — Interview, draft, and review from scratch
+3. **Consolidate skills** — Merge multiple skills into fewer
+
+</intake>
+
+<routing>
+
+| Response | Workflow |
+|----------|----------|
+| 1, "audit", "review", "check", "fix", "improve" | Audit Workflow (Step 1–4 in this file) |
+| 2, "create", "write", "build", "new", "draft" | Phases 1–5 (Interview → Draft → Description → Scripts → Review) in this file |
+| 3, "consolidate", "merge", "combine" | `references/consolidation-guide.md` — return to Phase 5 for final checklist |
+
+</routing>
 
 ## Audit Workflow
 
@@ -51,6 +67,7 @@ Check each category. Note issues as you go.
 - [ ] Router table maps commands to reference files
 - [ ] All referenced workflow/reference files exist
 - [ ] Essential principles are in SKILL.md, not only in sub-command references
+- [ ] If skill has multiple semantic sections, consider XML tags for structure (see `references/xml-structure-guide.md`)
 
 **Scripts** (if present):
 
@@ -140,7 +157,7 @@ Do not proceed to Phase 2 until the user confirms the scope is complete.
 
 Write the skill following the spec. Read `references/spec-guide.md` for the full format reference before drafting.
 
-**Starter templates:** Use `templates/simple-skill.md` for single-purpose skills or `templates/router-skill.md` for multi-command skills. Copy the template as a starting point, then customize.
+**Starter templates:** Use `templates/simple-skill.md` for single-purpose skills, `templates/router-skill.md` for multi-command skills using markdown headings, or `templates/router-skill-xml.md` for multi-command skills using XML structure. Copy the template as a starting point, then customize.
 
 ### Frontmatter
 
@@ -188,25 +205,43 @@ Common trap: a new sub-command reference duplicates tables from an existing refe
 
 Read `references/anti-patterns.md` during drafting to avoid known pitfalls.
 
+### XML structure (router and domain expertise skills)
+
+Agents parse XML tags more reliably than markdown headings when a skill has semantically distinct sections (principles, intake, routing, references). XML tags create unambiguous containers; markdown headings blend together in long prompts.
+
+Read `references/xml-structure-guide.md` for suggested patterns and anti-patterns.
+
+**When XML helps:**
+
+- Skills with an intake question + routing table + essential principles
+- Skills where an agent needs to quickly locate a specific section
+- Skills with inline workflows that need clear start/end boundaries
+
+**When markdown is enough:**
+
+- Simple skills with a single linear workflow
+- Sequential instructional content (phases, steps) where order matters more than section lookup
+
 ### Sub-command router (when applicable)
 
 For skills with multiple distinct operations, use a router table in SKILL.md.
 
-**Format choice:** Markdown headings work for most skills. For complex multi-agent orchestration or skills needing machine-parseable sections, XML tags (`<intake>`, `<routing>`, `<essential_principles>`) are also valid. You can mix them — XML tags for structural sections, markdown within content. Use whichever makes the skill easier to follow.
+```xml
+<intake>
+## What would you like to do?
 
-```markdown
-## Commands
+1. **Craft a feature** — Build end-to-end
+2. **Audit code** — Technical quality checks
 
-| Command | Description | Reference |
-|---|---|---|
-| `craft [feature]` | Build a feature end-to-end | [references/craft.md](references/craft.md) |
-| `audit [target]` | Technical quality checks | [references/audit.md](references/audit.md) |
+**Wait for response before proceeding.**
+</intake>
 
-### Routing rules
-
-1. **No argument**: Show the command menu. Ask what to do.
-2. **First word matches a command**: Load its reference file and follow it.
-3. **First word doesn't match**: General invocation using the full argument as context.
+<routing>
+| Response | Workflow |
+|----------|----------|
+| 1, "craft", "build" | `references/craft.md` |
+| 2, "audit", "check" | `references/audit.md` |
+</routing>
 ```
 
 Back the router with a `scripts/command-metadata.json` as the single source of truth:
@@ -364,6 +399,7 @@ Before presenting the final skill, verify against this checklist:
 - [ ] Setup gates are defined with fail actions for each gate
 - [ ] Register/mode system classifies before loading references
 - [ ] Capability-gated steps degrade gracefully with one-line skip reasons
+- [ ] Router/domain skills with distinct sections (intake, routing, principles) consider XML tags for clarity (`references/xml-structure-guide.md`)
 
 ### References
 
@@ -410,3 +446,20 @@ Before presenting the final skill, verify against this checklist:
 - [ ] Concrete examples included for non-obvious workflows
 - [ ] Absolute bans defined for patterns that are always wrong
 - [ ] Self-critique loops defined for build/implementation commands with explicit exit bars
+
+<reference_index>
+
+## Reference Index
+
+| Reference | Load when... |
+|-----------|-------------|
+| `references/spec-guide.md` | Drafting a SKILL.md (Phase 2) — full format reference |
+| `references/description-guide.md` | Optimizing the description (Phase 3) |
+| `references/scripts-guide.md` | Writing scripts (Phase 4) |
+| `references/anti-patterns.md` | Drafting or auditing — common failures to avoid |
+| `references/architecture-patterns.md` | Choosing between simple, router, and domain expertise patterns |
+| `references/api-skill-patterns.md` | Skill calls external APIs or services |
+| `references/consolidation-guide.md` | Merging multiple skills into fewer |
+| `references/xml-structure-guide.md` | Deciding on XML vs markdown structure |
+
+</reference_index>
