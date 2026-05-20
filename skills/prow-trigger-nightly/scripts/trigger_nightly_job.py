@@ -136,11 +136,13 @@ def _extract_branch(job: str, repo: str) -> str:
     return "?"
 
 
-def list_jobs() -> None:
+def list_jobs(*, json_output: bool = False) -> None:
     """Fetch and print available nightly jobs from all repos."""
     # Collect all jobs grouped by (repo, short_name) -> set of branches
     table: dict[tuple[str, str], set[str]] = {}
     all_branches: set[str] = set()
+    # Also collect full job names for JSON output.
+    full_names: dict[tuple[str, str, str], str] = {}
 
     for repo in REPOS:
         log_info(f"Fetching jobs from {repo}...")
@@ -151,10 +153,26 @@ def list_jobs() -> None:
             key = (repo, short)
             table.setdefault(key, set()).add(branch)
             all_branches.add(branch)
+            full_names[(repo, short, branch)] = job
 
     if not table:
         log_error("No nightly jobs found.")
         sys.exit(1)
+
+    if json_output:
+        result: list[dict] = []
+        for (repo, short), branches in sorted(table.items()):
+            for branch in sorted(branches):
+                result.append(
+                    {
+                        "repo": repo,
+                        "job": short,
+                        "branch": branch,
+                        "full_name": full_names[(repo, short, branch)],
+                    }
+                )
+        print(json.dumps(result, indent=2))
+        return
 
     # Sort branches: main first, then release-* in descending order
     def branch_sort_key(b: str) -> tuple[int, str]:
@@ -194,13 +212,10 @@ def list_jobs() -> None:
 DEFAULT_IMAGE_REPO = "rhdh/rhdh-hub-rhel9"
 
 
-def list_tags(image_repo: str, limit: int = 20) -> None:
+def list_tags(image_repo: str, limit: int = 20, *, json_output: bool = False) -> None:
     """Fetch and print available image tags from quay.io."""
     encoded_repo = urllib.request.quote(image_repo, safe="")
-    url = (
-        f"https://quay.io/api/v1/repository/{encoded_repo}/tag/"
-        f"?limit={limit}&onlyActiveTags=true"
-    )
+    url = f"https://quay.io/api/v1/repository/{encoded_repo}/tag/?limit={limit}&onlyActiveTags=true"
     req = urllib.request.Request(url, headers={"User-Agent": "rhdh-skill"})
     try:
         with urllib.request.urlopen(req, timeout=30) as resp:
@@ -219,6 +234,10 @@ def list_tags(image_repo: str, limit: int = 20) -> None:
     if not tags:
         log_error(f"No matching tags found for {image_repo}")
         sys.exit(1)
+
+    if json_output:
+        print(json.dumps({"image_repo": image_repo, "tags": tags}, indent=2))
+        return
 
     log_info(f"Available tags for {image_repo}:")
     for i, tag in enumerate(tags, 1):
@@ -522,6 +541,12 @@ Examples:
         dest="dry_run",
         help="Print the request payload without executing.",
     )
+    parser.add_argument(
+        "--json",
+        action="store_true",
+        dest="json_output",
+        help="Output structured JSON instead of human-readable text (for --list and --list-tags).",
+    )
 
     return parser.parse_args(argv)
 
@@ -573,11 +598,11 @@ def main(argv: list[str] | None = None) -> None:
     validate_args(args)
 
     if args.list_jobs:
-        list_jobs()
+        list_jobs(json_output=args.json_output)
         return
 
     if args.list_tags:
-        list_tags(args.image_repo or DEFAULT_IMAGE_REPO)
+        list_tags(args.image_repo or DEFAULT_IMAGE_REPO, json_output=args.json_output)
         return
 
     payload = build_payload(args)
