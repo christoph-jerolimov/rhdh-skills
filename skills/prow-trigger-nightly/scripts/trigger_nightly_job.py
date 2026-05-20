@@ -199,7 +199,7 @@ def list_tags(image_repo: str, limit: int = 20) -> None:
     encoded_repo = urllib.request.quote(image_repo, safe="")
     url = (
         f"https://quay.io/api/v1/repository/{encoded_repo}/tag/"
-        f"?limit={limit}&onlyActiveTags=true&filter_tag_name=like:1."
+        f"?limit={limit}&onlyActiveTags=true"
     )
     req = urllib.request.Request(url, headers={"User-Agent": "rhdh-skill"})
     try:
