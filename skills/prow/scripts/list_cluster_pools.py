@@ -11,8 +11,8 @@ import argparse
 import sys
 from pathlib import Path
 
-from rhdh_prow import ver_sort_key
 from rhdh_prow.repo import resolve_repo_root
+from rhdh_prow.utils import ver_sort_key
 from rhdh_prow.yaml import fetch_yaml, list_yaml_files
 
 POOL_DIR = "clusters/hosted-mgmt/hive/pools/rhdh"

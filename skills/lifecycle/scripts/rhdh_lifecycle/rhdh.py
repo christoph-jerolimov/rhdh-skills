@@ -7,7 +7,8 @@ Usage:
 
 from __future__ import annotations
 
-from rhdh_lifecycle.redhat import fetch_api, fetch_product_lifecycle, parse_versions, ver_sort_key
+from rhdh_lifecycle.redhat import fetch_api, fetch_product_lifecycle, parse_versions
+from rhdh_lifecycle.utils import ver_sort_key
 
 
 def _enrich_rhdh_version(v):

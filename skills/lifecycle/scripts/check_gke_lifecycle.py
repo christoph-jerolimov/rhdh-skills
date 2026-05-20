@@ -17,7 +17,7 @@ import json
 import sys
 from datetime import datetime, timezone
 
-from rhdh_lifecycle.redhat import fetch_json, ver_sort_key
+from rhdh_lifecycle.utils import fetch_json, ver_sort_key
 
 API_URL = "https://endoflife.date/api/google-kubernetes-engine.json"
 

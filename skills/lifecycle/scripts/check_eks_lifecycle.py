@@ -20,8 +20,8 @@ import urllib.request
 from datetime import datetime, timezone
 
 from rhdh_lifecycle.configured_versions import print_configured_versions
-from rhdh_lifecycle.redhat import fetch_json, filter_supported_eol_entries
 from rhdh_lifecycle.repo import resolve_repo_root
+from rhdh_lifecycle.utils import fetch_json, filter_supported_eol_entries
 
 EKS_DOCS_URL = (
     "https://raw.githubusercontent.com/awsdocs/amazon-eks-user-guide"

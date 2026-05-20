@@ -78,7 +78,7 @@ Bump all three when releasing.
 
 `skills/prow/scripts/rhdh_prow/repo.py` and `skills/prow/scripts/rhdh_prow/yaml.py` are copies of `skills/lifecycle/scripts/rhdh_lifecycle/repo.py` and `skills/lifecycle/scripts/rhdh_lifecycle/yaml.py`. The only difference is the internal import path (`rhdh_prow.repo` vs `rhdh_lifecycle.repo`). When modifying either copy, update both to keep them in sync.
 
-`ver_sort_key` in `skills/prow/scripts/rhdh_prow/__init__.py` is a copy of the same function in `skills/lifecycle/scripts/rhdh_lifecycle/redhat.py`. Keep both in sync.
+`skills/prow/scripts/rhdh_prow/utils.py` is a subset of `skills/lifecycle/scripts/rhdh_lifecycle/utils.py`. When modifying either copy, update both to keep them in sync.
 
 ## Agent skills
 

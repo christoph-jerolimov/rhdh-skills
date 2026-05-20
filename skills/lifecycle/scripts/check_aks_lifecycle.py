@@ -17,8 +17,8 @@ import sys
 from datetime import datetime, timezone
 
 from rhdh_lifecycle.configured_versions import print_configured_versions
-from rhdh_lifecycle.redhat import fetch_json, filter_supported_eol_entries, ver_sort_key
 from rhdh_lifecycle.repo import resolve_repo_root
+from rhdh_lifecycle.utils import fetch_json, filter_supported_eol_entries, ver_sort_key
 
 AKS_API_URL = "https://releases.aks.azure.com/parsed_data.json"
 EOL_API_URL = "https://endoflife.date/api/azure-kubernetes-service.json"

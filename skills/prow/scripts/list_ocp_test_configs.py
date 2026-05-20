@@ -15,8 +15,8 @@ from __future__ import annotations
 import argparse
 import sys
 
-from rhdh_prow import ver_sort_key
 from rhdh_prow.repo import resolve_repo_root
+from rhdh_prow.utils import ver_sort_key
 from rhdh_prow.yaml import extract_branch, fetch_yaml, list_yaml_files
 
 CONFIG_DIR = "ci-operator/config/redhat-developer/rhdh"
