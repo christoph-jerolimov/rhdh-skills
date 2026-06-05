@@ -49,9 +49,11 @@ Reviewers will produce false positives. Verify each finding against actual code 
 - Tested?
 - Anything from the issue's scope missing? (Author may be intentionally splitting work — note, don't block.)
 
-Present verified findings and dropped findings (with reasoning) to the user before drafting.
+Present verified findings and dropped findings (with reasoning) to the user before drafting. Use a structured format here — categorized by type (suggestion, question, observation), with `file:line` references and short descriptions. This is for the user to scan and approve, not the final comment text.
 
 ## Step 4: Draft the review
+
+The posted review should read like a person wrote it, not a report generator. The structured presentation in Step 3 helps the user decide what to include; the actual GitHub comments use a different voice.
 
 ### Top-level comment
 
